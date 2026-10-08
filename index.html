@@ -1,100 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="apple-touch-icon" href="icon-192.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-    
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#356F77">
+    <title>Budget Tracker</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Budget Tracker</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
 
-<style>
+    <meta name="theme-color" content="#356F77">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
-}
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial,sans-serif;
+        }
 
-    
-body{
-    background:#B7E4B6;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-}
+        body{
+            background:#B7E4B6;
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:20px;
+        }
 
-.container{
-    width:100%;
-    max-width:460px;
-    background:#F2F2F2;
-    padding:50px 35px;
-    border-radius:25px;
-    text-align:center;
-    box-shadow:0 8px 20px rgba(0,0,0,0.15);
-}
+        .container{
+            width:100%;
+            max-width:460px;
+            background:#F2F2F2;
+            padding:50px 35px;
+            border-radius:25px;
+            text-align:center;
+            box-shadow:0 8px 20px rgba(0,0,0,0.15);
+        }
 
-h1{
-    color:#2F737C;
-    font-size:64px;
-    font-weight:900;
-    line-height:1.1;
-    margin-bottom:40px;
-    letter-spacing:2px;
-}
+        h1{
+            color:#2F737C;
+            font-size:64px;
+            font-weight:900;
+            line-height:1.1;
+            margin-bottom:40px;
+        }
 
-input{
-    width:100%;
-    padding:15px;
-    margin-bottom:10px;
-    border:2px solid #1696D2;
-    border-radius:10px;
-    font-size:18px;
-}
+        input{
+            width:100%;
+            padding:15px;
+            margin-bottom:10px;
+            border:2px solid #1696D2;
+            border-radius:10px;
+            font-size:18px;
+        }
 
-button{
-    width:100%;
-    padding:15px;
-    margin-bottom:25px;
-    border:none;
-    border-radius:10px;
-    background:#356F77;
-    color:white;
-    font-size:20px;
-    font-weight:bold;
-    cursor:pointer;
-}
+        button{
+            width:100%;
+            padding:15px;
+            margin-bottom:25px;
+            border:none;
+            border-radius:10px;
+            background:#356F77;
+            color:white;
+            font-size:20px;
+            font-weight:bold;
+            cursor:pointer;
+        }
 
-button:hover{
-    opacity:0.9;
-}
+        .balance{
+            margin-top:15px;
+            font-size:22px;
+            font-weight:bold;
+        }
 
-.balance{
-    margin-top:15px;
-    font-size:22px;
-    font-weight:bold;
-}
+        #balance{
+            font-size:24px;
+            color:black;
+        }
 
-#balance{
-    font-size:24px;
-    color:black;
-}
-
-.message{
-    margin-top:20px;
-    font-size:18px;
-    font-weight:bold;
-}
-
-</style>
+        .message{
+            margin-top:20px;
+            font-size:18px;
+            font-weight:bold;
+        }
+    </style>
 </head>
 <body>
 
@@ -132,16 +124,13 @@ button:hover{
 </div>
 
 <script>
-
 let budget = 0;
 let totalExpenses = 0;
 
-function setBudget(){
+function setBudget() {
+    const amount = parseFloat(document.getElementById("budgetInput").value);
 
-    const amount =
-    parseFloat(document.getElementById("budgetInput").value);
-
-    if(isNaN(amount) || amount <= 0){
+    if (isNaN(amount) || amount <= 0) {
         alert("Please enter a valid budget");
         return;
     }
@@ -151,21 +140,20 @@ function setBudget(){
 
     updateBalance();
 
-    document.getElementById("message").innerHTML =
-    "Budget has been set";
+    document.getElementById("message").textContent =
+        "Budget has been set";
 }
 
-function addExpense(){
+function addExpense() {
 
-    if(budget === 0){
+    if (budget === 0) {
         alert("Set a budget first");
         return;
     }
 
-    const expense =
-    parseFloat(document.getElementById("expenseInput").value);
+    const expense = parseFloat(document.getElementById("expenseInput").value);
 
-    if(isNaN(expense) || expense <= 0){
+    if (isNaN(expense) || expense <= 0) {
         alert("Please enter a valid expense");
         return;
     }
@@ -177,75 +165,39 @@ function addExpense(){
     document.getElementById("expenseInput").value = "";
 }
 
-function updateBalance(){
+function updateBalance() {
 
     const remaining = budget - totalExpenses;
 
-    const balanceDisplay =
-    document.getElementById("balance");
+    const balanceDisplay = document.getElementById("balance");
 
-    balanceDisplay.textContent =
-    "K" + remaining.toFixed(2);
+    balanceDisplay.textContent = "K" + remaining.toFixed(2);
 
-    if(remaining < 0){
-
+    if (remaining < 0) {
         balanceDisplay.style.color = "red";
-
-        document.getElementById("message").innerHTML =
-        "You are over budget";
-
+        document.getElementById("message").textContent =
+            "You are over budget";
     }
-    else if(remaining === 0){
-
-        balanceDisplay.style.color = "#000";
-
-        document.getElementById("message").innerHTML =
-        "Budget fully spent";
-
+    else if (remaining === 0) {
+        balanceDisplay.style.color = "black";
+        document.getElementById("message").textContent =
+            "Budget fully spent";
     }
-    else{
-
-        balanceDisplay.style.color = "#000";
-
-        document.getElementById("message").innerHTML =
-        "Remaining budget available";
-
+    else {
+        balanceDisplay.style.color = "black";
+        document.getElementById("message").textContent =
+            "Remaining budget available";
     }
 }
-
-</script>
-
-<script>
 
 if ("serviceWorker" in navigator) {
-
-  window.addEventListener("load", () => {
-
-    navigator.serviceWorker
-      .register("./sw.js")
-      .then(() => {
-
-        console.log("Service Worker Registered");
-
-      })
-      .catch(error => {
-
-        console.log(error);
-
-      });
-
-  });
-
-}
-
-</script>
-
-
-<script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js");
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js")
+            .then(() => console.log("Service Worker Registered"))
+            .catch(error => console.log(error));
+    });
 }
 </script>
-    
+
 </body>
 </html>
