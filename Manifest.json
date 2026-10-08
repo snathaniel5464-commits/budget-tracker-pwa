@@ -1,0 +1,22 @@
+{
+  "name": "Budget Tracker",
+  "short_name": "Budget",
+  "description": "A simple budget tracking application that helps users manage budgets and expenses.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#B7E4B6",
+  "theme_color": "#356F77",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<link rel="manifest"name="theme-color" content="#356F77">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Budget Tracker</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#B7E4B6;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:460px;
+    background:#F2F2F2;
+    padding:50px 35px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+
+h1{
+    color:#2F737C;
+    font-size:64px;
+    font-weight:900;
+    line-height:1.1;
+    margin-bottom:40px;
+    letter-spacing:2px;
+}
+
+input{
+    width:100%;
+    padding:15px;
+    margin-bottom:10px;
+    border:2px solid #1696D2;
+    border-radius:10px;
+    font-size:18px;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    margin-bottom:25px;
+    border:none;
+    border-radius:10px;
+    background:#356F77;
+    color:white;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:0.9;
+}
+
+.balance{
+    margin-top:15px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+#balance{
+    font-size:24px;
+    color:black;
+}
+
+.message{
+    margin-top:20px;
+    font-size:18px;
+    font-weight:bold;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>BUDGET<br>TRACKER</h1>
+
+    <input
+        type="number"
+        id="budgetInput"
+        placeholder="Enter Budget">
+
+    <button onclick="setBudget()">
+        Set Budget
+    </button>
+
+    <input
+        type="number"
+        id="expenseInput"
+        placeholder="Enter Expense">
+
+    <button onclick="addExpense()">
+        Add Expense
+    </button>
+
+    <div class="balance">
+        Balance:
+        <span id="balance">K0.00</span>
+    </div>
+
+    <div class="message" id="message">
+        Set a budget to begin
+    </div>
+
+</div>
+
+<script>
+
+let budget = 0;
+let totalExpenses = 0;
+
+function setBudget(){
+
+    const amount =
+    parseFloat(document.getElementById("budgetInput").value);
+
+    if(isNaN(amount) || amount <= 0){
+        alert("Please enter a valid budget");
+        return;
+    }
+
+    budget = amount;
+    totalExpenses = 0;
+
+    updateBalance();
+
+    document.getElementById("message").innerHTML =
+    "Budget has been set";
+}
+
+function addExpense(){
+
+    if(budget === 0){
+        alert("Set a budget first");
+        return;
+    }
+
+    const expense =
+    parseFloat(document.getElementById("expenseInput").value);
+
+    if(isNaN(expense) || expense <= 0){
+        alert("Please enter a valid expense");
+        return;
+    }
+
+    totalExpenses += expense;
+
+    updateBalance();
+
+    document.getElementById("expenseInput").value = "";
+}
+
+function updateBalance(){
+
+    const remaining = budget - totalExpenses;
+
+    const balanceDisplay =
+    document.getElementById("balance");
+
+    balanceDisplay.textContent =
+    "K" + remaining.toFixed(2);
+
+    if(remaining < 0){
+
+        balanceDisplay.style.color = "red";
+
+        document.getElementById("message").innerHTML =
+        "You are over budget";
+
+    }
+    else if(remaining === 0){
+
+        balanceDisplay.style.color = "#000";
+
+        document.getElementById("message").innerHTML =
+        "Budget fully spent";
+
+    }
+    else{
+
+        balanceDisplay.style.color = "#000";
+
+        document.getElementById("message").innerHTML =
+        "Remaining budget available";
+
+    }
+}
+
+</script>
+
+<script>
+
+if ("serviceWorker" in navigator) {
+
+  window.addEventListener("load", () => {
+
+    navigator.serviceWorker
+      .register("./sw.js")
+      .then(() => {
+
+        console.log("Service Worker Registered");
+
+      })
+      .catch(error => {
+
+        console.log(error);
+
+      });
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>
